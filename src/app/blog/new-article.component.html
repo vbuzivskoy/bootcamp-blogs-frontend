@@ -1,0 +1,66 @@
+<h2>New blog article</h2>
+<form #newArticleForm="ngForm" (ngSubmit)="onSubmit(newArticleForm)">
+    <label for="title">Title</label>
+    <input
+      id="title"
+      name="title"
+      [(ngModel)]="newArticleData.title"
+      required
+      #titleField="ngModel"
+    />
+    <div
+      [hidden]="!newArticleForm.submitted || titleField.valid"
+    >
+      Enter a title
+    </div>
+
+    <label for="description">Description</label>
+    <input
+      id="description"
+      name="description"
+      [(ngModel)]="newArticleData.description"
+      required
+      #descriptionField="ngModel"
+    />
+    <div
+      [hidden]="!newArticleForm.submitted || descriptionField.valid"
+    >
+      Enter a description
+    </div>
+
+    <label for="text">Content</label>
+    <textarea
+      id="text"
+      name="description"
+      class="form-control"
+      [(ngModel)]="newArticleData.text"
+      required
+      minlength="10"
+      #textField="ngModel"
+    ></textarea>
+    <div
+      [hidden]="!newArticleForm.submitted || textField.valid"
+    >
+      Enter a content
+    </div>
+
+    <label for="tags">Tags</label>
+    <input
+      id="tags"
+      name="tags"
+      class="form-control"
+      [(ngModel)]="newArticleData.tags"
+      #tagField="ngModel"
+    />
+    <div
+      [hidden]="!newArticleForm.submitted || tagField.valid"
+    >
+      Enter tags separated by comma
+    </div>
+
+  <div [hidden]="!createArticleError">
+    {{ createArticleErrorMessage }}
+  </div>
+
+  <button class="btn btn-primary">Send</button>
+</form>
