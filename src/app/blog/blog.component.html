@@ -1,0 +1,20 @@
+<header>
+  <div>{{ pageTitle }}</div>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/newarticle">📝New Article</a></li>
+      <li>
+        <a href="#">{{ user.firstName }} {{ user.lastName }}</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <bb-article-list
+    *ngIf="articles"
+    [articles]="articles"
+    [user]="user"
+  ></bb-article-list>
+</main>
