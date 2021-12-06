@@ -1,0 +1,23 @@
+<div>
+  <div>
+    <div>
+      <img src="{{ article.author.avatarUrl || defaultUserAvatarUrl}}" alt="" />
+    </div>
+    <div>
+      <div>{{ article.author.firstName }} {{ article.author.lastName }}</div>
+      <div>{{ article.createdAt | date: "longDate" }}</div>
+    </div>
+  </div>
+  <div>
+    <p>{{ article.title | uppercase }}</p>
+    <p>{{ article.description }}</p>
+    <a href="/article/{{ article.id }}">Read more...</a>
+  </div>
+</div>
+<div>
+  <bb-liked-by
+    [likedBy]="article.likedBy"
+    [userId]="userId"
+    (likedByClicked)="onLikedByClicked()"
+  ></bb-liked-by>
+</div>
