@@ -1,0 +1,9 @@
+<ul *ngIf="articles.length">
+  <li *ngFor="let article of articles">
+    <bb-article-list-item
+      [article]="article"
+      [userId]="user?.id"
+    ></bb-article-list-item>
+  </li>
+</ul>
+<div *ngIf="!articles.length">No blogs to display...</div>
