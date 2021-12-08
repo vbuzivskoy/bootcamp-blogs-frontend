@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { Article, User } from './article.type';
+import { Article } from './article.type';
+import { User } from './user';
 
 @Component({
   selector: 'bb-article-list',

@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 
-import { Article, UserId } from './article.type';
-import { defaultUserAvatarUrl } from '../common/consts';
+import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../common/consts';
+import { Article } from './article.type';
+import { UserId } from './user';
 
 @Component({
   selector: 'bb-article-list-item',
@@ -11,11 +12,10 @@ export class ArticleListItemComponent {
   @Input() article!: Article;
   @Input() userId?: UserId;
 
-  defaultUserAvatarUrl: string;
-
-  constructor() {
-    this.defaultUserAvatarUrl = defaultUserAvatarUrl;
-  }
+  constructor(
+    @Inject(DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN)
+    public defaultUserAvatarUrl: string
+  ) {}
 
   onLikedByClicked() {
     if (this.userId) {

@@ -4,10 +4,9 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 
-import { UserId } from './article.type';
+import { UserId } from './user';
 
 @Component({
   selector: 'bb-liked-by',

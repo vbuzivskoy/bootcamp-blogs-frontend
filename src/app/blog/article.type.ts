@@ -1,11 +1,4 @@
-export type UserId = string;
-
-export type User = {
-  id: UserId;
-  firstName: string;
-  lastName: string;
-  avatarUrl?: string;
-};
+import { User, UserId } from './user';
 
 export type Article = {
   id?: string;
