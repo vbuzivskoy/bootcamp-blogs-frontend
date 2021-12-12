@@ -1,0 +1,4 @@
+<div [ngClass]="{ likes: true, liked: isLikedByUser }" (click)="onClick()">
+  <div [ngClass]="isLikedByUser ? 'heart-liked' : 'heart'"></div>
+  <div>{{ likedBy?.length || 0 }}</div>
+</div>

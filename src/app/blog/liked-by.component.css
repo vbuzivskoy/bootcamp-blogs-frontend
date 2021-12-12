@@ -1,0 +1,26 @@
+.heart-liked {
+  background-color: white;
+  -webkit-mask-image: url(/assets/images/heart.svg);
+  mask-image: url(/assets/images/heart.svg);
+  width: 20px;
+  height: 20px;
+}
+
+.heart {
+  background-color: green;
+  -webkit-mask-image: url(/assets/images/heart.svg);
+  mask-image: url(/assets/images/heart.svg);
+  width: 20px;
+  height: 20px;
+}
+
+div.likes {
+  color: green;
+  background-color: white;
+  border: 2px solid green;
+}
+
+div.likes.liked {
+  color: white;
+  background-color: green;
+}
