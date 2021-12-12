@@ -16,7 +16,6 @@ export class NewArticleComponent implements OnInit {
     title: '',
     description: '',
     text: '',
-    tags: '',
   };
   createArticleError: boolean = false;
   createArticleErrorMessage: string = '';
@@ -39,7 +38,6 @@ export class NewArticleComponent implements OnInit {
         title: this.newArticleData.title,
         description: this.newArticleData.description,
         text: this.newArticleData.text,
-        tags: this.newArticleData.tags.split(',').map((tag) => tag.trim()),
         createdAt: new Date(),
         author: this.user,
         likedBy: [],

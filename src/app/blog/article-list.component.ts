@@ -8,6 +8,6 @@ import { User } from './user';
   templateUrl: './article-list.component.html',
 })
 export class ArticleListComponent {
-  @Input() articles!: Article[];
+  @Input() articles?: Article[];
   @Input() user?: User;
 }
