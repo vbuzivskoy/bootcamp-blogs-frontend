@@ -1,12 +1,12 @@
-<ul *ngIf="articles?.length; else noBlogs">
-  <li *ngFor="let article of articles">
+<div *ngIf="articles?.length; else noBlogs">
+  <div *ngFor="let article of articles">
+    <mat-divider></mat-divider>
     <bb-article-list-item
       [article]="article"
-      [userId]="user?.id"
     ></bb-article-list-item>
-  </li>
-</ul>
+  </div>
+</div>
 
 <ng-template #noBlogs>
-  <div *ngIf="!articles?.length">No blogs to display...</div>
+  <div>No blogs to display...</div>
 </ng-template>
