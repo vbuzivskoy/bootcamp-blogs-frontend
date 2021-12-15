@@ -1,19 +1,38 @@
-<header>
-  <div>{{ pageTitle }}</div>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/newarticle">📝New Article</a></li>
-      <li>
-        <a href="#">{{ user.firstName }} {{ user.lastName }}</a>
-      </li>
-    </ul>
-  </nav>
-</header>
-
-<main>
-  <bb-article-list
-    [articles]="articles"
-    [user]="user"
-  ></bb-article-list>
-</main>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content class="sidenav-content">
+    <mat-toolbar class="toolbar">
+      <mat-toolbar-row>
+        <span class="page-title">{{ pageTitle }}</span>
+        <span class="spacer"></span>
+        <button mat-icon-button *ngIf="isScreenSmall" (click)="toggleSidenav()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <bb-article-list [articles]="articles"></bb-article-list>
+    <!-- <bb-new-article></bb-new-article> -->
+  </mat-sidenav-content>
+  <mat-sidenav class="sidenav"
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [opened]="!isScreenSmall || isSidenavOpened"
+    position="end"
+  >
+    <mat-toolbar class="toolbar">
+      <mat-toolbar-row>
+        <a mat-button href="/">Home</a>
+        <ng-template [ngIf]="user" [ngIfElse]="noUserLoggedIn">
+          <a mat-button href="/article/add">
+            <mat-icon>post_add</mat-icon>
+            New Article
+          </a>
+          <a mat-button href="/user/{{ user.id }}"> {{ user.firstName }} {{ user.lastName }} </a>
+        </ng-template>
+        <ng-template #noUserLoggedIn>
+          <a mat-button href="#">Log in</a>
+          <a mat-button href="#">Sign up</a>
+        </ng-template>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <bb-tag-cloud [tags]="popularTags"></bb-tag-cloud>
+  </mat-sidenav>
+</mat-sidenav-container>

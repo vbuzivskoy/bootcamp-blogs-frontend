@@ -1,0 +1,28 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  background-color: white;
+
+  .sidenav-content {
+    padding-left: 10px;
+    padding-right: 20px;
+
+    .toolbar {
+      background-color: white;
+    }
+  }
+
+  .sidenav {
+    border: none;
+
+    .toolbar {
+      background-color: white;
+    }
+  }
+}
+
+.page-title {
+  color: #5db95b;
+}
