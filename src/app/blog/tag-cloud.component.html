@@ -1,0 +1,19 @@
+<mat-card class="mat-elevation-z0 tags-card">
+  <mat-card-title class="tags-card-title">Popular Tags</mat-card-title>
+  <mat-card-content>
+    <mat-list *ngIf="tags?.length; else noTags">
+      <a
+        mat-list-item
+        *ngFor="let tag of tags"
+        href="/article?tag={{ tag }}"
+        class="tag-link"
+      >
+        {{ tag }}
+      </a>
+    </mat-list>
+
+    <ng-template #noTags>
+      <div>No tags are here... yet.</div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
