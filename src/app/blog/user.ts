@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export type UserId = string;
 
-export type UserParams = {
+export interface UserParams {
   id?: UserId;
   firstName: string;
   lastName: string;
