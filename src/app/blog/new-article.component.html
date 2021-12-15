@@ -1,46 +1,56 @@
-<h2>New blog article</h2>
-<form #newArticleForm="ngForm" (ngSubmit)="onSubmit(newArticleForm)">
-  <label for="title">Title</label>
-  <input
-    id="title"
-    name="title"
-    [(ngModel)]="newArticleData.title"
-    required
-    #titleField="ngModel"
-  />
-  <div [hidden]="!newArticleForm.submitted || titleField.valid">
-    Enter a title
-  </div>
+<form [formGroup]="newArticleForm" class="form">
+  <mat-form-field appearance="fill" class="field">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" />
+    <mat-error *ngIf="title?.invalid && (title?.dirty || title?.touched)">
+      {{ getTitleFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
 
-  <label for="description">Description</label>
-  <input
-    id="description"
-    name="description"
-    [(ngModel)]="newArticleData.description"
-    required
-    #descriptionField="ngModel"
-  />
-  <div [hidden]="!newArticleForm.submitted || descriptionField.valid">
-    Enter a description
-  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput formControlName="description" />
+    <mat-error
+      *ngIf="
+        description?.invalid && (description?.dirty || description?.touched)
+      "
+    >
+      {{ getDescriptionFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
 
-  <label for="text">Content</label>
-  <textarea
-    id="text"
-    name="description"
-    class="form-control"
-    [(ngModel)]="newArticleData.text"
-    required
-    minlength="10"
-    #textField="ngModel"
-  ></textarea>
-  <div [hidden]="!newArticleForm.submitted || textField.valid">
-    Enter a content
-  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Text</mat-label>
+    <textarea matInput formControlName="text"></textarea>
+    <mat-error *ngIf="text?.invalid && (text?.dirty || text?.touched)">
+      {{ getTextFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
 
-  <div [hidden]="!createArticleError">
-    {{ createArticleErrorMessage }}
-  </div>
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Tags</mat-label>
+    <mat-chip-list #chipList aria-label="Tag selection">
+      <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+        {{ tag }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="Add tag..."
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        matChipInputAddOnBlur
+        (matChipInputTokenEnd)="addTag($event)"
+      />
+    </mat-chip-list>
+  </mat-form-field>
 
-  <button class="btn btn-primary">Send</button>
+  <button
+    mat-icon-button
+    (click)="onSubmit()"
+    [disabled]="!newArticleForm.valid"
+  >
+    Save
+  </button>
 </form>
