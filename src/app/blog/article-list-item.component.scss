@@ -1,3 +1,6 @@
+@use "sass:map";
+@import "../../custom-palette.scss";
+
 .spacer {
   flex: 1 1 auto;
 }
@@ -7,28 +10,28 @@
 }
 
 .author {
-  color: #5db95b;
+  color: map.get($custom-palette, "contrast", "A400");
   font-weight: 500;
   text-decoration: none;
 }
 
 .creation-date {
-  color: #a3a3a3;
+  color: map.get($custom-palette, "contrast", 200);
   font-size: 0.7rem;
 }
 
 .card-title {
-  color: #393a3c;
+  color: map.get($custom-palette, "contrast", 400);
   font-size: 1.5rem;
 }
 
 .card-content {
-  color: #a3a3a3;
+  color: map.get($custom-palette, "contrast", 200);
 }
 
 .article-link {
   font-size: 0.7rem;
-  color: #a3a3a3;
+  color: map.get($custom-palette, "contrast", 200);
   text-decoration: none;
 }
 

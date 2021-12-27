@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content class="sidenav-content">
-    <mat-toolbar class="toolbar">
+    <mat-toolbar color="accent">
       <mat-toolbar-row>
         <span class="page-title">{{ pageTitle }}</span>
         <span class="spacer"></span>
@@ -17,7 +17,7 @@
     [opened]="!isScreenSmall || isSidenavOpened"
     position="end"
   >
-    <mat-toolbar class="toolbar">
+    <mat-toolbar color="primary">
       <mat-toolbar-row>
         <a mat-button href="/">Home</a>
         <ng-template [ngIf]="user" [ngIfElse]="noUserLoggedIn">

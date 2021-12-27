@@ -1,23 +1,26 @@
+@use "sass:map";
+@import "../../custom-palette.scss";
+
 .container {
   display: flex;
   width: fit-content;
   padding: 4px;
   align-items: center;
   justify-content: center;
-  
+
   font-size: 0.8rem;
 
   border-radius: 4px;
 
-  color: #5db95b;
-  background-color: white;
-  border: 1px solid #5db95b;
+  color: map.get($custom-palette, "contrast", "A400");
+  background-color: map.get($custom-palette, "A400");
+  border: 1px solid map.get($custom-palette, "contrast", "A400");
 
   cursor: default;
 
   &.liked {
-    color: white;
-    background-color: #5db95b;
+    color: map.get($custom-palette, "A400");
+    background-color: map.get($custom-palette, "contrast", "A400");
   }
 
   .counter {
