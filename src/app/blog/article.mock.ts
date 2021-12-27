@@ -154,7 +154,7 @@ export const allArticles = [
     text: 'id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis',
     createdAt: new Date('2021-07-24T04:30:38Z'),
     likedBy: ['cd3c14a5-1ff4-412a-8562-147d3f105b0f'],
-    tags: ['project', 'Robust'],
+    tags: ['project', 'Robust', 'asymmetric'],
   },
   {
     id: '83abdcce-1699-412d-95c5-e75e5f68c265',
@@ -174,6 +174,6 @@ export const allArticles = [
       '9540febc-0fe0-4351-a4ae-972d783e941a',
       '100d0b7e-4a9b-415f-a86c-11b32eb7b98d',
     ],
-    tags: [],
+    tags: ['project', 'asymmetric'],
   },
 ];

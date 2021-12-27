@@ -11,4 +11,5 @@ export interface Article extends ArticleFormData {
   author: User;
   createdAt: Date;
   likedBy: UserId[];
+  tags: string[];
 };

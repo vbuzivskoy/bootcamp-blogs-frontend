@@ -1,23 +1,30 @@
-<div>
-  <div>
-    <div>
-      <img src="{{ article.author.avatarUrl || defaultUserAvatarUrl}}" alt="" />
-    </div>
-    <div>
-      <div>{{ article.author.firstName }} {{ article.author.lastName }}</div>
-      <div>{{ article.createdAt | date: "longDate" }}</div>
-    </div>
-  </div>
-  <div>
-    <p>{{ article.title | uppercase }}</p>
-    <p>{{ article.description }}</p>
-    <a href="/article/{{ article.id }}">Read more...</a>
-  </div>
-</div>
-<div>
-  <bb-liked-by
-    [likedBy]="article.likedBy"
-    [userId]="userId"
-    (likedByClicked)="onLikedByClicked()"
-  ></bb-liked-by>
-</div>
+<mat-card *ngIf="article" class="mat-elevation-z0 card">
+  <mat-card-header>
+    <img
+      mat-card-avatar
+      src="{{ article.author.avatarUrl || defaultUserAvatarUrl }}"
+      alt="Author's avatar"
+    />
+    <mat-card-subtitle>
+      <a href="/user/{{ article.author.id }}" class="author">
+        {{ article.author.firstName }} {{ article.author.lastName }}
+      </a>
+      <div class="creation-date">
+        {{ article.createdAt | date: "longDate" }}
+      </div>
+    </mat-card-subtitle>
+    <div class="spacer"></div>
+    <bb-liked-by
+      [likedBy]="article.likedBy"
+      (likedByClicked)="onLikedByClicked()"
+      [userId]="userId"
+    ></bb-liked-by>
+  </mat-card-header>
+
+  <mat-card-title class="card-title">{{ article.title }}</mat-card-title>
+  <mat-card-content class="card-content">{{ article.description }}</mat-card-content>
+
+  <mat-card-actions class="card-actions">
+    <a href="/article/{{ article.id }}" class="article-link">Read more...</a>
+  </mat-card-actions>
+</mat-card>

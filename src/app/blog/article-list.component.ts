@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Article } from './article.type';
-import { User } from './user';
+import { Article } from './article.interface';
 
 @Component({
   selector: 'bb-article-list',
@@ -9,5 +8,4 @@ import { User } from './user';
 })
 export class ArticleListComponent {
   @Input() articles?: Article[];
-  @Input() user?: User;
 }

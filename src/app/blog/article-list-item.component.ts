@@ -1,21 +1,29 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 
 import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../common/consts';
-import { Article } from './article.type';
+import { Article } from './article.interface';
 import { UserId } from './user';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'bb-article-list-item',
   templateUrl: './article-list-item.component.html',
+  styleUrls: ['./article-list-item.component.scss'],
 })
-export class ArticleListItemComponent {
+export class ArticleListItemComponent implements OnInit {
   @Input() article!: Article;
-  @Input() userId?: UserId;
+  userId?: UserId;
 
   constructor(
     @Inject(DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN)
-    public defaultUserAvatarUrl: string
+    public defaultUserAvatarUrl: string,
+    private userService: UserService
   ) {}
+
+  ngOnInit(): void {
+    const currentUser = this.userService.getCurrentUser();
+    this.userId = currentUser?.id;
+  }
 
   onLikedByClicked() {
     if (this.userId) {

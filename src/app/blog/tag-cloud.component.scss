@@ -1,0 +1,16 @@
+@use "sass:map";
+@import "../../custom-palette.scss";
+
+.tags-card {
+  font-size: 1rem;
+  color: map.get($custom-palette, "contrast", 500);
+  background-color: map.get($custom-palette, "contrast", 50);
+
+  .tags-card-title {
+    font-size: 1rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

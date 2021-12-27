@@ -11,7 +11,7 @@ import { UserId } from './user';
 @Component({
   selector: 'bb-liked-by',
   templateUrl: './liked-by.component.html',
-  styleUrls: ['./liked-by.component.css'],
+  styleUrls: ['./liked-by.component.scss'],
 })
 export class LikedByComponent implements OnChanges {
   @Input() likedBy!: UserId[];

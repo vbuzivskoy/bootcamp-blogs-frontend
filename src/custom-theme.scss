@@ -1,0 +1,29 @@
+@use "@angular/material" as mat;
+@import "./custom-palette";
+
+  @include mat.core();
+
+$bootcamp-blogs-frontend-primary: mat.define-palette($custom-palette);
+$bootcamp-blogs-frontend-accent: mat.define-palette(
+  $custom-palette,
+  A200,
+  A100,
+  A400,
+  A700
+);
+
+$bootcamp-blogs-frontend-typography: mat.define-typography-config(
+  $font-family: "Assistant",
+);
+
+$bootcamp-blogs-frontend-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $bootcamp-blogs-frontend-primary,
+      accent: $bootcamp-blogs-frontend-accent,
+    ),
+    typography: $bootcamp-blogs-frontend-typography,
+  )
+);
+
+@include mat.all-component-themes($bootcamp-blogs-frontend-theme);
