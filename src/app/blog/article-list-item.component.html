@@ -6,7 +6,11 @@
       alt="Author's avatar"
     />
     <mat-card-subtitle>
-      <a href="/user/{{ article.author.id }}" class="author">
+      <a
+        [routerLink]="['./']"
+        [queryParams]="{ author: article.author.id }"
+        class="author"
+      >
         {{ article.author.firstName }} {{ article.author.lastName }}
       </a>
       <div class="creation-date">
@@ -22,9 +26,11 @@
   </mat-card-header>
 
   <mat-card-title class="card-title">{{ article.title }}</mat-card-title>
-  <mat-card-content class="card-content">{{ article.description }}</mat-card-content>
+  <mat-card-content class="card-content">{{
+    article.description
+  }}</mat-card-content>
 
   <mat-card-actions class="card-actions">
-    <a href="/article/{{ article.id }}" class="article-link">Read more...</a>
+    <a [routerLink]="[article.id]" class="article-link">Read more...</a>
   </mat-card-actions>
 </mat-card>
