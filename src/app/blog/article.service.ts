@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { countBy, flatten } from 'lodash';
+import { Observable, Subject } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
+import { Article, ArticleSearchParams } from './article.interface';
 import { allArticles } from './article.mock';
-import { Article } from './article.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +16,31 @@ export class ArticleService {
     this.articles = allArticles;
   }
 
-  getAllArticles(): Article[] {
-    return this.articles;
+  getArticles(searchParams: ArticleSearchParams = {}): Observable<Article[]> {
+    let filteredArticles = this.articles;
+    if (searchParams.author) {
+      filteredArticles = filteredArticles.filter(
+        (article) => article.author.id === searchParams.author
+      );
+    }
+
+    if (searchParams.tag) {
+      filteredArticles = filteredArticles.filter((article) =>
+        article.tags.includes(searchParams.tag!)
+      );
+    }
+
+    const articlesSubject = new Subject<Article[]>();
+    setTimeout(() => {
+      articlesSubject.next(filteredArticles);
+      articlesSubject.complete();
+    }, 1000);
+
+    return articlesSubject;
   }
 
-  getArticlesByAuthorId(authorId: string): Article[] {
-    return this.articles.filter((article) => article.author.id === authorId);
+  getArticleById(articleId: string): Article | undefined {
+    return this.articles.find((article) => article.id === articleId);
   }
 
   createArticle(newArticleData: Article): Article {
