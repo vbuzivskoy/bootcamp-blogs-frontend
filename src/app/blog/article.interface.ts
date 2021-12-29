@@ -13,3 +13,8 @@ export interface Article extends ArticleFormData {
   likedBy: UserId[];
   tags: string[];
 };
+
+export interface ArticleSearchParams {
+  author?: UserId;
+  tag?: string;
+}
