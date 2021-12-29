@@ -1,28 +1,42 @@
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from '@angular/cdk/layout';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  Event,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 
-import { Article } from './article.interface';
 import { ArticleService } from './article.service';
+import { BlogTitleService } from './blog-title.service';
 import { User } from './user';
 import { UserService } from './user.service';
 
 @Component({
-  selector: 'bb-blog',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.scss'],
 })
 export class BlogComponent implements OnInit {
-  articles: Article[] | undefined;
   user: User | undefined;
-  pageTitle!: string;
+  title: string = '';
   popularTags: string[] | undefined;
   isScreenSmall!: boolean;
   isSidenavOpened: boolean = false;
+  isLoading = false;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private articleService: ArticleService,
-    private userService: UserService
+    private userService: UserService,
+    private blogTitleService: BlogTitleService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -32,15 +46,30 @@ export class BlogComponent implements OnInit {
         this.isScreenSmall = state.matches;
       });
 
-    this.pageTitle;
+    this.router.events.subscribe((event: Event) => {
+      switch (true) {
+        case event instanceof NavigationStart: {
+          this.isLoading = true;
+          break;
+        }
+
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel:
+        case event instanceof NavigationError: {
+          this.isLoading = false;
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    });
+
+    this.blogTitleService.getTitle().subscribe((title) => {
+      this.title = title;
+    });
+
     this.user = this.userService.getCurrentUser();
-    if (this.user) {
-      this.articles = this.articleService.getArticlesByAuthorId(this.user.id);
-      this.pageTitle = 'My Blog';
-    } else {
-      this.articles = this.articleService.getAllArticles();
-      this.pageTitle = 'All Blogs';
-    }
     this.popularTags = this.articleService.getPopularTags();
   }
 
