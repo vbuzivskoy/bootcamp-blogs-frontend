@@ -35,40 +35,17 @@ export class BlogComponent implements OnInit {
     private articleService: ArticleService,
     private userService: UserService,
     private blogTitleService: BlogTitleService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
     this.breakpointObserver
       .observe([Breakpoints.Small, Breakpoints.XSmall])
       .subscribe((state: BreakpointState) => {
         this.isScreenSmall = state.matches;
       });
-
-    this.router.events.subscribe((event: Event) => {
-      console.log('this.router.events.subscribe ~ event', event);
-
-      switch (true) {
-        case event instanceof NavigationStart: {
-          this.isLoading = true;
-          break;
-        }
-
-        case event instanceof NavigationEnd:
-        case event instanceof NavigationCancel:
-        case event instanceof NavigationError: {
-          this.isLoading = false;
-          console.log(
-            'this.router.events.subscribe ~ this.isLoading',
-            this.isLoading
-          );
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    });
 
     this.blogTitleService.getTitle().subscribe((title: string) => {
       this.title = title;
