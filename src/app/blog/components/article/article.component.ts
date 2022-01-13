@@ -2,11 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
-import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../common/consts';
-import { Article } from './article.interface';
-import { BlogTitleService } from './blog-title.service';
-import { UserId } from './user';
-import { UserService } from './user.service';
+import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../../../common/consts';
+import { Article, BlogTitleService } from '../../services';
+import { UserId, UserService } from '../../../auth';
 
 @Component({
   templateUrl: './article.component.html',

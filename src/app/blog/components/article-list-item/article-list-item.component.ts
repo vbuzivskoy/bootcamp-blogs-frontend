@@ -1,9 +1,8 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 
-import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../common/consts';
-import { Article } from './article.interface';
-import { UserId } from './user';
-import { UserService } from './user.service';
+import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../../../common/consts';
+import { Article } from '../../services';
+import { UserId, UserService } from '../../../auth';
 
 @Component({
   selector: 'bb-article-list-item',

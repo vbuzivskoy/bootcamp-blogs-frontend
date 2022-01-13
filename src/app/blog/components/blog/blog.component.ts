@@ -13,10 +13,9 @@ import {
   Router,
 } from '@angular/router';
 
-import { ArticleService } from './article.service';
-import { BlogTitleService } from './blog-title.service';
-import { User } from './user';
-import { UserService } from './user.service';
+import { User, UserService } from '../../../auth';
+import { ArticleService } from '../../services/article.service';
+import { BlogTitleService } from '../../services/blog-title.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +28,7 @@ export class BlogComponent implements OnInit {
   popularTags: string[] | undefined;
   isScreenSmall!: boolean;
   isSidenavOpened: boolean = false;
-  isLoading = false;
+  isLoading = true;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -47,6 +46,8 @@ export class BlogComponent implements OnInit {
       });
 
     this.router.events.subscribe((event: Event) => {
+      console.log('this.router.events.subscribe ~ event', event);
+
       switch (true) {
         case event instanceof NavigationStart: {
           this.isLoading = true;
@@ -57,6 +58,10 @@ export class BlogComponent implements OnInit {
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
           this.isLoading = false;
+          console.log(
+            'this.router.events.subscribe ~ this.isLoading',
+            this.isLoading
+          );
           break;
         }
         default: {
@@ -65,7 +70,7 @@ export class BlogComponent implements OnInit {
       }
     });
 
-    this.blogTitleService.getTitle().subscribe((title) => {
+    this.blogTitleService.getTitle().subscribe((title: string) => {
       this.title = title;
     });
 

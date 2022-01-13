@@ -17,6 +17,7 @@ export class ArticleService {
   }
 
   getArticles(searchParams: ArticleSearchParams = {}): Observable<Article[]> {
+    console.log('getArticles ~ searchParams', searchParams);
     let filteredArticles = this.articles;
     if (searchParams.author) {
       filteredArticles = filteredArticles.filter(

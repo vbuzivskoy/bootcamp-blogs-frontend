@@ -1,4 +1,4 @@
-import { User, UserId } from './user';
+import { User, UserId } from '../../auth';
 
 export interface ArticleFormData {
   title: string;
@@ -12,7 +12,7 @@ export interface Article extends ArticleFormData {
   createdAt: Date;
   likedBy: UserId[];
   tags: string[];
-};
+}
 
 export interface ArticleSearchParams {
   author?: UserId;

@@ -27,10 +27,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
+              "src/styles/custom-theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {

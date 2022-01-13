@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { UserId } from './user';
+import { UserId } from '../../../auth';
 
 @Component({
   selector: 'bb-liked-by',

@@ -5,12 +5,9 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-import { trimmedMinLengthValidator } from '../common/validators';
-import { Article } from './article.interface';
-import { ArticleService } from './article.service';
-import { BlogTitleService } from './blog-title.service';
-import { User } from './user';
-import { UserService } from './user.service';
+import { User, UserService } from '../../../auth';
+import { trimmedMinLengthValidator } from '../../../common/validators';
+import { Article, ArticleService, BlogTitleService } from '../../services';
 
 @Component({
   selector: 'bb-new-article',
