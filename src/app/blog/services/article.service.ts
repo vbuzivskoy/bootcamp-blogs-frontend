@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { countBy, flatten } from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Article, ArticleSearchParams } from './article.interface';
@@ -17,7 +17,6 @@ export class ArticleService {
   }
 
   getArticles(searchParams: ArticleSearchParams = {}): Observable<Article[]> {
-    console.log('getArticles ~ searchParams', searchParams);
     let filteredArticles = this.articles;
     if (searchParams.author) {
       filteredArticles = filteredArticles.filter(
@@ -40,8 +39,8 @@ export class ArticleService {
     return articlesSubject;
   }
 
-  getArticleById(articleId: string): Article | undefined {
-    return this.articles.find((article) => article.id === articleId);
+  getArticleById(articleId: string): Observable<Article | undefined> {
+    return of(this.articles.find((article) => article.id === articleId));
   }
 
   createArticle(newArticleData: Article): Article {

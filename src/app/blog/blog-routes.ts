@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { ArticleResolver } from './article-resolver';
 import {
   ArticleComponent,
   ArticleListComponent,
@@ -16,10 +15,6 @@ export const blogRoutes: Routes = [
       {
         path: '',
         component: ArticleListComponent,
-        // resolve: {
-        //   articles: ArticleListResolver,
-        // },
-        // runGuardsAndResolvers: 'paramsOrQueryParamsChange'
       },
       {
         path: 'add',
@@ -28,9 +23,6 @@ export const blogRoutes: Routes = [
       {
         path: ':id',
         component: ArticleComponent,
-        resolve: {
-          article: ArticleResolver,
-        },
       },
     ],
   },

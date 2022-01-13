@@ -13,8 +13,6 @@ import {
   NewArticleComponent,
   TagCloudComponent,
 } from './components';
-import { ArticleListResolver } from './article-list-resolver';
-import { ArticleResolver } from './article-resolver';
 import { blogRoutes } from './blog-routes';
 
 @NgModule({
@@ -35,6 +33,5 @@ import { blogRoutes } from './blog-routes';
     RouterModule.forChild(blogRoutes),
   ],
   exports: [BlogComponent, NewArticleComponent],
-  providers: [ArticleListResolver, ArticleResolver],
 })
 export class BlogModule {}
