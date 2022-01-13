@@ -8,7 +8,7 @@ export class BlogTitleService {
   private titleSubject = new Subject<string>();
 
   getTitle(): Observable<string> {
-    return this.titleSubject;
+    return this.titleSubject.asObservable();
   }
 
   setTitle(value: string) {
