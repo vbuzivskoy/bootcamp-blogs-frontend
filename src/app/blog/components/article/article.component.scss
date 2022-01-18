@@ -1,5 +1,5 @@
 @use "sass:map";
-@import "../../custom-palette.scss";
+@import "custom-palette";
 
 .spacer {
   flex: 1 1 auto;
@@ -20,13 +20,15 @@
   font-size: 0.7rem;
 }
 
-.card-title {
-  color: map.get($custom-palette, "contrast", 400);
-  font-size: 1.5rem;
+.card-description {
+  color: map.get($custom-palette, "contrast", 200);
+  font-style: italic;
+  font-size: 1.4rem;
 }
 
 .card-content {
-  color: map.get($custom-palette, "contrast", 200);
+  color: map.get($custom-palette, "contrast", 900);
+  font-size: 1.2rem;
 }
 
 .article-link {

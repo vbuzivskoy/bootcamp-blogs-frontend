@@ -1,31 +1,45 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" autosize>
   <mat-sidenav-content class="sidenav-content">
     <mat-toolbar color="accent">
       <mat-toolbar-row>
-        <span class="page-title">{{ pageTitle }}</span>
+        <span class="page-title">{{ title }}</span>
         <span class="spacer"></span>
         <button mat-icon-button *ngIf="isScreenSmall" (click)="toggleSidenav()">
           <mat-icon>menu</mat-icon>
         </button>
       </mat-toolbar-row>
     </mat-toolbar>
-    <bb-article-list [articles]="articles"></bb-article-list>
-    <!-- <bb-new-article></bb-new-article> -->
+
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
-  <mat-sidenav class="sidenav"
+  <mat-sidenav
+    class="sidenav"
     [mode]="isScreenSmall ? 'over' : 'side'"
     [opened]="!isScreenSmall || isSidenavOpened"
     position="end"
   >
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <a mat-button href="/">Home</a>
+        <a mat-button routerLink="/">Home</a>
         <ng-template [ngIf]="user" [ngIfElse]="noUserLoggedIn">
-          <a mat-button href="/article/add">
+          <a mat-button routerLink="./add">
             <mat-icon>post_add</mat-icon>
             New Article
           </a>
-          <a mat-button href="/user/{{ user.id }}"> {{ user.firstName }} {{ user.lastName }} </a>
+
+          <button mat-button [matMenuTriggerFor]="menu">
+            {{ user.firstName }} {{ user.lastName }}
+          </button>
+          <mat-menu #menu="matMenu">
+            <a
+              mat-menu-item
+              routerLink="/article"
+              [queryParams]="{ author: user.id }"
+            >
+              My Blog
+            </a>
+            <a mat-menu-item href="#">Log out</a>
+          </mat-menu>
         </ng-template>
         <ng-template #noUserLoggedIn>
           <a mat-button href="#">Log in</a>

@@ -1,5 +1,5 @@
 @use "sass:map";
-@import "../../custom-palette.scss";
+@import "custom-palette";
 
 .spacer {
   flex: 1 1 auto;
@@ -7,6 +7,7 @@
 
 .sidenav-container {
   background-color: map.get($custom-palette, 700);
+  height: 100%;
 
   .sidenav-content {
     padding-left: 10px;
@@ -15,5 +16,9 @@
 
   .sidenav {
     border: none;
+  }
+
+  ::ng-deep .mat-progress-bar-fill::after {
+    background-color: #3fb53f;
   }
 }

@@ -1,18 +1,18 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
-import { Article, ArticleFormData } from './article.interface';
-import { ArticleService } from './article.service';
-import { User } from './user';
-import { UserService } from './user.service';
-import { trimmedMinLengthValidator } from '../common/validators';
+import { User, UserService } from '../../../auth';
+import { trimmedMinLengthValidator } from '../../../common/validators';
+import { Article, ArticleService, BlogTitleService } from '../../services';
 
 @Component({
   selector: 'bb-new-article',
   templateUrl: './new-article.component.html',
-  styleUrls: ['./new-article.component.scss']
+  styleUrls: ['./new-article.component.scss'],
 })
 export class NewArticleComponent implements OnInit {
   user!: User;
@@ -20,14 +20,26 @@ export class NewArticleComponent implements OnInit {
   tags: string[] = [];
 
   newArticleForm = new FormGroup({
-    title: new FormControl('', [Validators.required, trimmedMinLengthValidator(5)]),
-    description: new FormControl('', [Validators.required, trimmedMinLengthValidator(5)]),
-    text: new FormControl('', [Validators.required, trimmedMinLengthValidator(10)]),
+    title: new FormControl('', [
+      Validators.required,
+      trimmedMinLengthValidator(5),
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+      trimmedMinLengthValidator(5),
+    ]),
+    text: new FormControl('', [
+      Validators.required,
+      trimmedMinLengthValidator(10),
+    ]),
   });
 
   constructor(
     private articleService: ArticleService,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title,
+    private blogTitleService: BlogTitleService,
+    private router: Router
   ) {}
 
   get title() {
@@ -76,7 +88,12 @@ export class NewArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.userService.getCurrentUser();
+    this.userService.getCurrentUser().subscribe((user: User) => {
+      this.user = user;
+    });
+    const title = 'New Article';
+    this.titleService.setTitle(title);
+    this.blogTitleService.setTitle(title);
   }
 
   onSubmit() {
@@ -90,8 +107,11 @@ export class NewArticleComponent implements OnInit {
         likedBy: [],
         tags: this.tags,
       };
-      const newArticle = this.articleService.createArticle(newArticleData);
-      console.log('New article successfully saved:', newArticle);
+      this.articleService
+        .createArticle(newArticleData)
+        .subscribe((newArticle) => {
+          this.router.navigate(['/article', newArticle.id]);
+        });
     }
   }
 

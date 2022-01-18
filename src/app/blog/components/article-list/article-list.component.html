@@ -1,0 +1,17 @@
+<mat-progress-bar
+  *ngIf="isLoading; else blogList"
+  mode="indeterminate"
+></mat-progress-bar>
+
+<ng-template #blogList>
+  <div *ngIf="articles?.length; else noBlogs">
+    <div *ngFor="let article of articles">
+      <mat-divider></mat-divider>
+      <bb-article-list-item [article]="article"></bb-article-list-item>
+    </div>
+  </div>
+
+  <ng-template #noBlogs>
+    <div>No blogs to display...</div>
+  </ng-template>
+</ng-template>

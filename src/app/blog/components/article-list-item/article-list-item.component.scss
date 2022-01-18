@@ -1,0 +1,41 @@
+@use "sass:map";
+@import "custom-palette";
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.card {
+  font-size: 1rem;
+}
+
+.author {
+  color: map.get($custom-palette, "contrast", "A400");
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.creation-date {
+  color: map.get($custom-palette, "contrast", 200);
+  font-size: 0.7rem;
+}
+
+.card-title {
+  color: map.get($custom-palette, "contrast", 400);
+  font-size: 1.5rem;
+}
+
+.card-content {
+  color: map.get($custom-palette, "contrast", 200);
+}
+
+.article-link {
+  font-size: 0.7rem;
+  color: map.get($custom-palette, "contrast", 200);
+  text-decoration: none;
+}
+
+.card-actions {
+  margin: 0px;
+  padding: 0px;
+}

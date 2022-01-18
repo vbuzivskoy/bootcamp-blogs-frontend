@@ -5,9 +5,10 @@
       <a
         mat-list-item
         *ngFor="let tag of tags"
-        href="/article?tag={{ tag }}"
+        [routerLink]="['/article']"
+        [queryParams]="{ tag: tag.id }"
       >
-        {{ tag }}
+        {{ tag.name }}
       </a>
     </mat-list>
 
