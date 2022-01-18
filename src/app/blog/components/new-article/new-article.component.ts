@@ -88,7 +88,9 @@ export class NewArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.userService.getCurrentUser();
+    this.userService.getCurrentUser().subscribe((user: User) => {
+      this.user = user;
+    });
     const title = 'New Article';
     this.titleService.setTitle(title);
     this.blogTitleService.setTitle(title);
@@ -105,8 +107,11 @@ export class NewArticleComponent implements OnInit {
         likedBy: [],
         tags: this.tags,
       };
-      const newArticle = this.articleService.createArticle(newArticleData);
-      this.router.navigate(['/article', newArticle.id]);
+      this.articleService
+        .createArticle(newArticleData)
+        .subscribe((newArticle) => {
+          this.router.navigate(['/article', newArticle.id]);
+        });
     }
   }
 

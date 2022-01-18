@@ -1,32 +1,39 @@
-<mat-card *ngIf="article" class="mat-elevation-z0 card">
-  <mat-card-header>
-    <img
-      mat-card-avatar
-      src="{{ article.author.avatarUrl || defaultUserAvatarUrl }}"
-      alt="Author's avatar"
-    />
-    <mat-card-subtitle>
-      <a
-        [routerLink]="['/article']"
-        [queryParams]="{ author: article.author.id }"
-        class="author"
-      >
-        {{ article.author.firstName }} {{ article.author.lastName }}
-      </a>
-      <div class="creation-date">
-        {{ article.createdAt | date: "longDate" }}
-      </div>
-    </mat-card-subtitle>
-    <div class="spacer"></div>
-    <bb-liked-by
-      [likedBy]="article.likedBy"
-      (likedByClicked)="onLikedByClicked()"
-      [userId]="userId"
-    ></bb-liked-by>
-  </mat-card-header>
+<mat-progress-bar
+  *ngIf="isLoading; else blogArticle"
+  mode="indeterminate"
+></mat-progress-bar>
 
-  <mat-card-title class="card-description">{{ article.description }}</mat-card-title>
-  <mat-card-content class="card-content">{{
-    article.text
-  }}</mat-card-content>
-</mat-card>
+<ng-template #blogArticle>
+  <mat-card *ngIf="article" class="mat-elevation-z0 card">
+    <mat-card-header>
+      <img
+        mat-card-avatar
+        src="{{ article.author.avatarUrl || defaultUserAvatarUrl }}"
+        alt="Author's avatar"
+      />
+      <mat-card-subtitle>
+        <a
+          [routerLink]="['/article']"
+          [queryParams]="{ author: article.author.id }"
+          class="author"
+        >
+          {{ article.author.firstName }} {{ article.author.lastName }}
+        </a>
+        <div class="creation-date">
+          {{ article.createdAt | date: "longDate" }}
+        </div>
+      </mat-card-subtitle>
+      <div class="spacer"></div>
+      <bb-liked-by
+        [likedBy]="article.likedBy"
+        (likedByClicked)="onLikedByClicked()"
+        [isLikedByUser]="isLikedByUser"
+      ></bb-liked-by>
+    </mat-card-header>
+
+    <mat-card-title class="card-description">{{
+      article.description
+    }}</mat-card-title>
+    <mat-card-content class="card-content">{{ article.text }}</mat-card-content>
+  </mat-card>
+</ng-template>

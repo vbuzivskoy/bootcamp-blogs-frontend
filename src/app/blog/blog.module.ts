@@ -4,16 +4,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../shared';
+import { blogRoutes } from './blog-routes';
 import {
-  ArticleListItemComponent,
-  ArticleListComponent,
   ArticleComponent,
+  ArticleListComponent,
+  ArticleListItemComponent,
   BlogComponent,
   LikedByComponent,
   NewArticleComponent,
   TagCloudComponent,
 } from './components';
-import { blogRoutes } from './blog-routes';
+import { ArticleService, BlogTitleService, TagService } from './services';
 
 @NgModule({
   declarations: [
@@ -33,5 +34,6 @@ import { blogRoutes } from './blog-routes';
     RouterModule.forChild(blogRoutes),
   ],
   exports: [BlogComponent, NewArticleComponent],
+  providers: [ArticleService, TagService, BlogTitleService],
 })
 export class BlogModule {}

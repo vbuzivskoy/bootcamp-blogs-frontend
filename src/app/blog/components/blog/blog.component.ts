@@ -3,29 +3,25 @@ import {
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  Event,
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User, UserService } from '../../../auth';
-import { ArticleService } from '../../services/article.service';
-import { BlogTitleService } from '../../services/blog-title.service';
+import {
+  ArticleService,
+  BlogTitleService,
+  Tag,
+  TagService,
+} from '../../services';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.scss'],
 })
 export class BlogComponent implements OnInit {
-  user: User | undefined;
+  user?: User;
   title: string = '';
-  popularTags: string[] | undefined;
+  popularTags?: Tag[];
   isScreenSmall!: boolean;
   isSidenavOpened: boolean = false;
   isLoading = true;
@@ -36,6 +32,7 @@ export class BlogComponent implements OnInit {
     private userService: UserService,
     private blogTitleService: BlogTitleService,
     private router: Router,
+    private tagService: TagService
   ) {}
 
   ngOnInit(): void {
@@ -51,8 +48,13 @@ export class BlogComponent implements OnInit {
       this.title = title;
     });
 
-    this.user = this.userService.getCurrentUser();
-    this.popularTags = this.articleService.getPopularTags();
+    this.userService.getCurrentUser().subscribe((user: User) => {
+      this.user = user;
+    });
+    
+    this.tagService.getPopularTags().subscribe((tags) => {
+      this.popularTags = tags;
+    });
   }
 
   toggleSidenav(): void {

@@ -1,4 +1,5 @@
 import { User, UserId } from '../../auth';
+import { Tag } from './tag.interface';
 
 export interface ArticleFormData {
   title: string;
@@ -10,8 +11,8 @@ export interface Article extends ArticleFormData {
   id?: string;
   author: User;
   createdAt: Date;
-  likedBy: UserId[];
-  tags: string[];
+  likedBy: User[];
+  tags: Tag[] | string[];
 }
 
 export interface ArticleSearchParams {

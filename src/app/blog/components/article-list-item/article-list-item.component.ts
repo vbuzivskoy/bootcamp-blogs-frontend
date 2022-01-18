@@ -1,8 +1,9 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { User } from '../../../auth';
 
 import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../../../common/consts';
 import { Article } from '../../services';
-import { UserId, UserService } from '../../../auth';
+import { ArticleService } from '../../services/article.service';
 
 @Component({
   selector: 'bb-article-list-item',
@@ -11,28 +12,28 @@ import { UserId, UserService } from '../../../auth';
 })
 export class ArticleListItemComponent implements OnInit {
   @Input() article!: Article;
-  userId?: UserId;
+  isLikedByUser?: boolean;
 
   constructor(
     @Inject(DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN)
     public defaultUserAvatarUrl: string,
-    private userService: UserService
+    private articleService: ArticleService
   ) {}
 
   ngOnInit(): void {
-    const currentUser = this.userService.getCurrentUser();
-    this.userId = currentUser?.id;
+    this.articleService
+      .isArticleLikedByUser(this.article)
+      .subscribe((isArticleLikedByUser) => {
+        this.isLikedByUser = isArticleLikedByUser;
+      });
   }
 
   onLikedByClicked() {
-    if (this.userId) {
-      if (this.article.likedBy.includes(this.userId)) {
-        this.article.likedBy = this.article.likedBy.filter(
-          (userId) => userId !== this.userId
-        );
-      } else {
-        this.article.likedBy = [...this.article.likedBy, this.userId];
-      }
-    }
+    this.articleService
+      .toggleVote(this.article.id!)
+      .subscribe((likedByUsers) => {
+        this.article.likedBy = likedByUsers;
+        this.isLikedByUser = !this.isLikedByUser;
+      });
   }
 }
