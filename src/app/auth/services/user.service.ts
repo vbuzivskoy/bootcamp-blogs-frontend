@@ -1,46 +1,35 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { User } from './user';
-import { Observable, of, tap } from 'rxjs';
+import { User, UserId, UserParams } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private userApiUrl: string;
-  private currentUser?: User;
 
   constructor(private http: HttpClient) {
     this.userApiUrl = `${environment.apiUrl}/user`;
   }
 
-  getCurrentUser(): Observable<User> {
-    if (this.currentUser) {
-      return of(this.currentUser);
-    }
+  getUserById(userId: UserId) {
+    return this.http.get<User>(`${this.userApiUrl}/${userId}`);
+  }
 
+  createUser(userParams: UserParams): Observable<User> {
     const httpRequestOptions = {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${this.getAuthToken()}`,
+        'Content-Type': 'application/json',
       }),
     };
-    return this.http
-      .get<User>(`${this.userApiUrl}/me`, httpRequestOptions)
-      .pipe(
-        tap((user: User) => {
-          this.currentUser = user;
-          return this.currentUser;
-        })
-      );
-  }
 
-  getAuthToken(): string {
-    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWRjMjI2NWQ1NzIyY2FiMWVjYzY5NTgiLCJpYXQiOjE2NDE4OTA3OTF9.T1tVXpgdy8lb7DhwQqmfjvCDhdD5bayFXOljzaN-zUM';
-  }
-
-  getUserById(userId: string) {
-    return this.http.get<User>(`${this.userApiUrl}/${userId}`);
+    return this.http.post<User>(
+      `${this.userApiUrl}`,
+      userParams,
+      httpRequestOptions
+    );
   }
 }
