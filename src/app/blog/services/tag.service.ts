@@ -27,14 +27,8 @@ export class TagService {
       .pipe(map((tags) => tags.filter((tag) => tag.articles.length !== 0)));
   }
 
-  findTagByFullName(name: string): Observable<Tag> {
-    const httpRequestOptions = {
-      params: new HttpParams({
-        fromObject: { name },
-      }),
-    };
-
-    return this.http.get<Tag>(this.tagApiUrl, httpRequestOptions);
+  getTagByFullName(name: string): Observable<Tag> {
+    return this.http.get<Tag>(`${this.tagApiUrl}/${encodeURI(name)}`);
   }
 
   createTag(name: string): Observable<Tag> {

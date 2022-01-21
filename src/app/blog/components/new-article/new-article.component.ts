@@ -125,7 +125,7 @@ export class NewArticleComponent implements OnInit {
     const value = (event.value || '').trim();
 
     if (value) {
-      this.tagService.findTagByFullName(value).subscribe({
+      this.tagService.getTagByFullName(value).subscribe({
         next: (tag) => {
           if (!this.tags.map(({ id }) => id).includes(tag.id)) {
             this.tags.push(tag);
