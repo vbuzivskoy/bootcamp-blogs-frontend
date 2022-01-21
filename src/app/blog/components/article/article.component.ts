@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../../auth/services';
 
+import { AuthService } from '../../../auth/services';
 import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../../../common/consts';
 import { Article, ArticleService, BlogTitleService } from '../../services';
 

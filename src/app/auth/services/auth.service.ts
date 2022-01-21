@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, switchMap, tap } from 'rxjs';
+import { Observable, of, switchMap, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { signInResponse } from '../interfaces';
-import { User } from '../interfaces';
+import { SignInResponse, User } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +31,7 @@ export class AuthService {
   signIn(email: string, password: string): Observable<unknown> {
     const signInParams = { email, password };
     return this.http
-      .post<signInResponse>(`${this.userApiUrl}/signin`, signInParams)
+      .post<SignInResponse>(`${this.userApiUrl}/signin`, signInParams)
       .pipe(
         tap(({ token }) => {
           this.setAuthToken(token);

@@ -6,7 +6,7 @@ export interface UserParams {
   email: string;
   password: string;
   avatarUrl?: string;
-};
+}
 
 export interface User extends UserParams {
   id: UserId;
