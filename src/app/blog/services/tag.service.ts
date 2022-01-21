@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
@@ -25,5 +25,25 @@ export class TagService {
     return this.http
       .get<Tag[]>(this.tagApiUrl, httpRequestOptions)
       .pipe(map((tags) => tags.filter((tag) => tag.articles.length !== 0)));
+  }
+
+  findTagByFullName(name: string): Observable<Tag> {
+    const httpRequestOptions = {
+      params: new HttpParams({
+        fromObject: { name },
+      }),
+    };
+
+    return this.http.get<Tag>(this.tagApiUrl, httpRequestOptions);
+  }
+
+  createTag(name: string): Observable<Tag> {
+    const httpRequestOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.post<Tag>(this.tagApiUrl, { name }, httpRequestOptions);
   }
 }
