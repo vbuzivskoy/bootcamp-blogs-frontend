@@ -4,10 +4,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
-import { User, UserService } from '../../../auth';
+import { AuthService, User } from '../../../auth';
 import { trimmedMinLengthValidator } from '../../../common/validators';
-import { Article, ArticleService, BlogTitleService } from '../../services';
+import {
+  Article,
+  ArticleService,
+  BlogTitleService,
+  Tag,
+  TagService,
+} from '../../services';
 
 @Component({
   selector: 'bb-new-article',
@@ -17,7 +22,7 @@ import { Article, ArticleService, BlogTitleService } from '../../services';
 export class NewArticleComponent implements OnInit {
   user!: User;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  tags: string[] = [];
+  tags: Tag[] = [];
 
   newArticleForm = new FormGroup({
     title: new FormControl('', [
@@ -36,7 +41,8 @@ export class NewArticleComponent implements OnInit {
 
   constructor(
     private articleService: ArticleService,
-    private userService: UserService,
+    private tagService: TagService,
+    private authService: AuthService,
     private titleService: Title,
     private blogTitleService: BlogTitleService,
     private router: Router
@@ -88,7 +94,7 @@ export class NewArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe((user: User) => {
+    this.authService.getCurrentUser().subscribe((user: User) => {
       this.user = user;
     });
     const title = 'New Article';
@@ -105,7 +111,7 @@ export class NewArticleComponent implements OnInit {
         createdAt: new Date(),
         author: this.user,
         likedBy: [],
-        tags: this.tags,
+        tags: this.tags.map(({ id }) => id),
       };
       this.articleService
         .createArticle(newArticleData)
@@ -118,18 +124,40 @@ export class NewArticleComponent implements OnInit {
   addTag(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    if (value && !this.tags.includes(value)) {
-      this.tags.push(value);
+    if (value) {
+      this.tagService.getTagByFullName(value).subscribe({
+        next: (tag) => {
+          if (!this.tags.map(({ id }) => id).includes(tag.id)) {
+            this.tags.push(tag);
+          }
+          event.chipInput!.clear();
+        },
+        error: () => {
+          this.tagService.createTag(value).subscribe({
+            next: (tag) => {
+              this.tags.push(tag);
+              event.chipInput!.clear();
+            },
+            error: () => {
+              event.chipInput!.clear();
+            },
+          });
+        },
+      });
     }
 
     event.chipInput!.clear();
   }
 
-  removeTag(tag: string): void {
-    const index = this.tags.indexOf(tag);
+  removeTag(tagId: string): void {
+    const index = this.tags.map(({ id }) => id).indexOf(tagId);
 
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
+  }
+
+  onCancel() {
+    this.router.navigate(['/']);
   }
 }

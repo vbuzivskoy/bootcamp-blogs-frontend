@@ -1,0 +1,67 @@
+<form [formGroup]="signUpForm" fxLayout="column">
+  <mat-form-field appearance="fill">
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" />
+    <mat-error
+      *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
+    >
+      {{ getFirstNameFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="lastName" />
+    <mat-error
+      *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+    >
+      {{ getLastNameFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>E-mail</mat-label>
+    <input matInput formControlName="email" />
+    <mat-error *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+      {{ getEmailFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password" />
+    <mat-error
+      *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+    >
+      {{ getPasswordFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Avatar URL</mat-label>
+    <input matInput formControlName="avatarUrl" />
+    <mat-error
+      *ngIf="avatarUrl?.invalid && (avatarUrl?.dirty || avatarUrl?.touched)"
+    >
+      {{ getAvatarUrlFieldValidationErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+
+  <div class="error">
+    <mat-error *ngIf="errorMessage">
+      {{ errorMessage }}
+    </mat-error>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end">
+    <button
+      mat-stroked-button
+      (click)="signUp()"
+      [disabled]="!signUpForm.valid"
+    >
+      Sign up
+    </button>
+
+    <button mat-stroked-button (click)="onCancel()">Cancel</button>
+  </div>
+</form>

@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 
 import { appRoutes } from './app-routes';
 import { AppComponent } from './app.component';
+import { AuthModule } from './auth/auth.module';
+import { authInterceptorProviders } from './auth/interceptors';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,8 +15,10 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AuthModule,
     RouterModule.forRoot(appRoutes),
   ],
+  providers: [...authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

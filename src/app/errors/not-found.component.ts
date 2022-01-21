@@ -4,6 +4,4 @@ import { Component } from '@angular/core';
   template: ` <h1 class="errorMessage">404'd</h1> `,
   styleUrls: ['./not-found.component.scss'],
 })
-export class NotFoundComponent {
-  constructor() {}
-}
+export class NotFoundComponent {}

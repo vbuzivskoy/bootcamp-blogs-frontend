@@ -6,13 +6,9 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { User, UserService } from '../../../auth';
-import {
-  ArticleService,
-  BlogTitleService,
-  Tag,
-  TagService,
-} from '../../services';
+import { User } from '../../../auth';
+import { AuthService } from '../../../auth/services/auth.service';
+import { BlogTitleService, Tag, TagService } from '../../services';
 
 @Component({
   templateUrl: './blog.component.html',
@@ -28,8 +24,7 @@ export class BlogComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private articleService: ArticleService,
-    private userService: UserService,
+    private authService: AuthService,
     private blogTitleService: BlogTitleService,
     private router: Router,
     private tagService: TagService
@@ -48,10 +43,12 @@ export class BlogComponent implements OnInit {
       this.title = title;
     });
 
-    this.userService.getCurrentUser().subscribe((user: User) => {
-      this.user = user;
-    });
-    
+    if (this.authService.isLoggedIn()) {
+      this.authService.getCurrentUser().subscribe((user: User) => {
+        this.user = user;
+      });
+    }
+
     this.tagService.getPopularTags().subscribe((tags) => {
       this.popularTags = tags;
     });
@@ -59,5 +56,10 @@ export class BlogComponent implements OnInit {
 
   toggleSidenav(): void {
     this.isSidenavOpened = !this.isSidenavOpened;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }
