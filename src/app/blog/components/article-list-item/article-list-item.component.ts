@@ -1,9 +1,8 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { User } from '../../../auth';
 
+import { AuthService } from '../../../auth/services';
 import { DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN } from '../../../common/consts';
-import { Article } from '../../services';
-import { ArticleService } from '../../services/article.service';
+import { Article, ArticleService } from '../../services';
 
 @Component({
   selector: 'bb-article-list-item',
@@ -17,7 +16,8 @@ export class ArticleListItemComponent implements OnInit {
   constructor(
     @Inject(DEFAULT_USER_AVATAR_URL_INJECTION_TOKEN)
     public defaultUserAvatarUrl: string,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -29,11 +29,13 @@ export class ArticleListItemComponent implements OnInit {
   }
 
   onLikedByClicked() {
-    this.articleService
-      .toggleVote(this.article.id!)
-      .subscribe((likedByUsers) => {
-        this.article.likedBy = likedByUsers;
-        this.isLikedByUser = !this.isLikedByUser;
-      });
+    if (this.authService.isLoggedIn()) {
+      this.articleService
+        .toggleVote(this.article.id!)
+        .subscribe((likedByUsers) => {
+          this.article.likedBy = likedByUsers;
+          this.isLikedByUser = !this.isLikedByUser;
+        });
+    }
   }
 }
