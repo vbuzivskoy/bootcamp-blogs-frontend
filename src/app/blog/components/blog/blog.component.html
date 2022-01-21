@@ -38,12 +38,12 @@
             >
               My Blog
             </a>
-            <a mat-menu-item href="#">Log out</a>
+            <button mat-menu-item (click)="logout()">Log out</button>
           </mat-menu>
         </ng-template>
         <ng-template #noUserLoggedIn>
-          <a mat-button href="#">Log in</a>
-          <a mat-button href="#">Sign up</a>
+          <a mat-button routerLink="/signin">Sign in</a>
+          <a mat-button routerLink="/signup">Sign up</a>
         </ng-template>
       </mat-toolbar-row>
     </mat-toolbar>
