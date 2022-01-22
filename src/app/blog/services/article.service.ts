@@ -10,7 +10,6 @@ import { Article, ArticleSearchParams } from './article.interface';
   providedIn: 'root',
 })
 export class ArticleService {
-  private articles: Article[] = [];
   private articleApiUrl: string;
 
   constructor(private http: HttpClient, private authService: AuthService) {
