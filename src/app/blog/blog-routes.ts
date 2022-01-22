@@ -6,7 +6,7 @@ import {
   BlogComponent,
   NewArticleComponent,
 } from './components';
-import { CanCreateNewArticleGuard } from './guards';
+import { CanCreateNewArticleGuard, CanDropOutNewArticle } from './guards';
 
 export const blogRoutes: Routes = [
   {
@@ -21,6 +21,7 @@ export const blogRoutes: Routes = [
         path: 'add',
         component: NewArticleComponent,
         canActivate: [CanCreateNewArticleGuard],
+        canDeactivate: [CanDropOutNewArticle],
       },
       {
         path: ':id',
