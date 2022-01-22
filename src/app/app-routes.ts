@@ -1,6 +1,11 @@
 import { Routes } from '@angular/router';
-import { SignInComponent, SignUpComponent } from './auth/components';
 
+import { SignInComponent, SignUpComponent } from './auth/components';
+import {
+  CanDropOutSignUpGuard,
+  CanSignInGuard,
+  CanSignUpGuard,
+} from './auth/guards';
 import { NotFoundComponent } from './errors/not-found.component';
 
 export const appRoutes: Routes = [
@@ -17,10 +22,13 @@ export const appRoutes: Routes = [
   {
     path: 'signin',
     component: SignInComponent,
+    canActivate: [CanSignInGuard],
   },
   {
     path: 'signup',
     component: SignUpComponent,
+    canActivate: [CanSignUpGuard],
+    canDeactivate: [CanDropOutSignUpGuard],
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' },

@@ -1,10 +1,15 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
 import { AuthService, User } from '../../../auth';
+import { DropOutDialogComponent } from '../../../common/components';
+import { OnDropOut } from '../../../common/interfaces';
 import { trimmedMinLengthValidator } from '../../../common/validators';
 import {
   Article,
@@ -19,7 +24,7 @@ import {
   templateUrl: './new-article.component.html',
   styleUrls: ['./new-article.component.scss'],
 })
-export class NewArticleComponent implements OnInit {
+export class NewArticleComponent implements OnInit, OnDropOut {
   user!: User;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: Tag[] = [];
@@ -45,7 +50,8 @@ export class NewArticleComponent implements OnInit {
     private authService: AuthService,
     private titleService: Title,
     private blogTitleService: BlogTitleService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   get title() {
@@ -159,5 +165,23 @@ export class NewArticleComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/']);
+  }
+
+  onDropOut(): Observable<boolean> {
+    if (this.newArticleForm.pristine) {
+      return of(true);
+    }
+
+    const shouldLeaveObservable = new EventEmitter<boolean>();
+
+    const dialogRef = this.dialog.open(DropOutDialogComponent, {
+      data: { message: 'Leave without saving article data?' },
+    });
+
+    dialogRef.afterClosed().subscribe((shouldLeave = false) => {
+      shouldLeaveObservable.emit(shouldLeave);
+    });
+
+    return shouldLeaveObservable;
   }
 }
