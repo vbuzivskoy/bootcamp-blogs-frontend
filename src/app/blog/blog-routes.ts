@@ -6,6 +6,7 @@ import {
   BlogComponent,
   NewArticleComponent,
 } from './components';
+import { CanCreateNewArticleGuard } from './guards';
 
 export const blogRoutes: Routes = [
   {
@@ -19,6 +20,7 @@ export const blogRoutes: Routes = [
       {
         path: 'add',
         component: NewArticleComponent,
+        canActivate: [CanCreateNewArticleGuard],
       },
       {
         path: ':id',
