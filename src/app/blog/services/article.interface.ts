@@ -12,7 +12,7 @@ export interface Article extends ArticleFormData {
   author: User;
   createdAt: Date;
   likedBy: User[];
-  tags: Tag[] | string[];
+  tags: Tag[];
 }
 
 export interface ArticleSearchParams {

@@ -1,16 +1,15 @@
 <mat-card class="mat-elevation-z0 tags-card">
   <mat-card-title class="tags-card-title">Popular Tags</mat-card-title>
   <mat-card-content>
-    <mat-list *ngIf="tags?.length; else noTags">
-      <a
-        mat-list-item
+    <mat-chip-list *ngIf="tags?.length; else noTags">
+      <mat-chip
         *ngFor="let tag of tags"
         [routerLink]="['/article']"
         [queryParams]="{ tag: tag.id }"
+        class="tag"
+        >{{ tag.name }}</mat-chip
       >
-        {{ tag.name }}
-      </a>
-    </mat-list>
+    </mat-chip-list>
 
     <ng-template #noTags>
       <div>No tags are here... yet.</div>

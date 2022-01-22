@@ -111,7 +111,7 @@ export class NewArticleComponent implements OnInit {
         createdAt: new Date(),
         author: this.user,
         likedBy: [],
-        tags: this.tags.map(({ id }) => id),
+        tags: this.tags,
       };
       this.articleService
         .createArticle(newArticleData)
@@ -125,7 +125,7 @@ export class NewArticleComponent implements OnInit {
     const value = (event.value || '').trim();
 
     if (value) {
-      this.tagService.getTagByFullName(value).subscribe({
+      this.tagService.getTagByName(value).subscribe({
         next: (tag) => {
           if (!this.tags.map(({ id }) => id).includes(tag.id)) {
             this.tags.push(tag);

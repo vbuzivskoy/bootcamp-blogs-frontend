@@ -35,5 +35,17 @@
       article.description
     }}</mat-card-title>
     <mat-card-content class="card-content">{{ article.text }}</mat-card-content>
+
+    <mat-card-footer *ngIf="article.tags.length">
+      <mat-chip-list>
+        <mat-chip
+          *ngFor="let tag of article.tags"
+          [routerLink]="['/article']"
+          [queryParams]="{ tag: tag.id }"
+          class="tag"
+          >{{ tag.name }}</mat-chip
+        >
+      </mat-chip-list>
+    </mat-card-footer>
   </mat-card>
 </ng-template>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { imageUrlRegex } from '../../../common/consts';
@@ -11,7 +12,7 @@ import { UserService } from '../../services';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   signUpForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
@@ -23,9 +24,18 @@ export class SignUpComponent {
     avatarUrl: new FormControl('', [Validators.pattern(imageUrlRegex)]),
   });
 
+  title = 'Sign Up';
   errorMessage: string | null = null;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private titleService: Title
+  ) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+  }
 
   get firstName() {
     return this.signUpForm.get('firstName');
@@ -93,7 +103,6 @@ export class SignUpComponent {
   }
 
   signUp() {
-    this.errorMessage = null;
     if (this.signUpForm.valid) {
       const newUserParams: UserParams = {
         firstName: (this.firstName?.value as string).trim(),
@@ -119,5 +128,9 @@ export class SignUpComponent {
 
   onCancel() {
     this.router.navigate(['/']);
+  }
+
+  onFormClick() {
+    this.errorMessage = null;
   }
 }
