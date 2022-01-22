@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services';
@@ -9,15 +10,24 @@ import { AuthService } from '../../services';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   signInForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
+  title = 'Sign In';
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private titleService: Title
+  ) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+  }
 
   get email() {
     return this.signInForm.get('email');
@@ -47,7 +57,6 @@ export class SignInComponent {
   }
 
   signIn() {
-    this.errorMessage = null;
     if (this.signInForm.valid) {
       this.authService
         .signIn(this.email!.value, this.password!.value)
@@ -64,5 +73,9 @@ export class SignInComponent {
 
   onCancel() {
     this.router.navigate(['/']);
+  }
+
+  onFormClick() {
+    this.errorMessage = null;
   }
 }
