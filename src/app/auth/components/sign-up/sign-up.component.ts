@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 
+import { DropOutDialogComponent } from '../../../common/components';
 import { imageUrlRegex } from '../../../common/consts';
+import { OnDropOut } from '../../../common/interfaces';
 import { UserParams } from '../../interfaces';
 import { UserService } from '../../services';
 
@@ -12,7 +16,7 @@ import { UserService } from '../../services';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDropOut {
   signUpForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
@@ -26,11 +30,13 @@ export class SignUpComponent implements OnInit {
 
   title = 'Sign Up';
   errorMessage: string | null = null;
+  isLeaveDialogShown = false;
 
   constructor(
     private userService: UserService,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -132,5 +138,23 @@ export class SignUpComponent implements OnInit {
 
   onFormClick() {
     this.errorMessage = null;
+  }
+
+  onDropOut(): Observable<boolean> {
+    if (this.signUpForm.pristine) {
+      return of(true);
+    }
+
+    const shouldLeaveObservable = new EventEmitter<boolean>();
+
+    const dialogRef = this.dialog.open(DropOutDialogComponent, {
+      data: { message: `Leave without saving user's data?` },
+    });
+
+    dialogRef.afterClosed().subscribe((shouldLeave = false) => {
+      shouldLeaveObservable.emit(shouldLeave);
+    });
+
+    return shouldLeaveObservable;
   }
 }
