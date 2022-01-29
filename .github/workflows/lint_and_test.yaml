@@ -1,0 +1,30 @@
+name: Run linter and tests
+
+on:
+  push:
+    branches: [master, dev/*]
+  pull_request:
+    branches: [master, dev/*]
+  workflow_dispatch:
+
+jobs:
+  run-linter-and-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install packages
+        run: npm ci
+      - name: Run linter
+        run: npm run lint
+      - name: Run tests
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
