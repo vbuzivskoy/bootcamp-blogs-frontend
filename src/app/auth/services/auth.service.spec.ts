@@ -35,10 +35,12 @@ describe('AuthService', () => {
   });
 
   it('should sign in correctly', () => {
+    const user = 'fake user';
     const authToken = 'test auth token';
     const email = 'test@example.com';
     const password = 'ThisIsAVarySecretPassword';
     mockHttp.post.and.returnValue(of({ token: authToken }));
+    mockHttp.get.and.returnValue(of({ user }));
 
     authService.signIn(email, password).subscribe();
 
@@ -51,10 +53,12 @@ describe('AuthService', () => {
   });
 
   it('should logout correctly', () => {
+    const user = 'fake user';
     const authToken = 'test auth token';
     const email = 'test@example.com';
     const password = 'ThisIsAVarySecretPassword';
     mockHttp.post.and.returnValue(of({ token: authToken }));
+    mockHttp.get.and.returnValue(of({ user }));
     authService.signIn(email, password).subscribe();
 
     authService.logout();
