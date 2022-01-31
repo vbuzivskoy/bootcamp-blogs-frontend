@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: process.env['API_URL'],
+  apiUrl:
+    'http://bootcampblogsapiserver-env.eba-6239c5pq.eu-central-1.elasticbeanstalk.com',
 };
