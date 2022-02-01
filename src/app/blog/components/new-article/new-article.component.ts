@@ -28,6 +28,7 @@ export class NewArticleComponent implements OnInit, OnDropOut {
   user!: User;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: Tag[] = [];
+  hasUnsavedChanges: boolean = true;
 
   newArticleForm = new FormGroup({
     title: new FormControl('', [
@@ -102,10 +103,10 @@ export class NewArticleComponent implements OnInit, OnDropOut {
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((user: User) => {
       this.user = user;
+      const title = 'New Article';
+      this.titleService.setTitle(title);
+      this.blogTitleService.setTitle(title);
     });
-    const title = 'New Article';
-    this.titleService.setTitle(title);
-    this.blogTitleService.setTitle(title);
   }
 
   onSubmit() {
@@ -122,6 +123,7 @@ export class NewArticleComponent implements OnInit, OnDropOut {
       this.articleService
         .createArticle(newArticleData)
         .subscribe((newArticle) => {
+          this.hasUnsavedChanges = false;
           this.router.navigate(['/article', newArticle.id]);
         });
     }
@@ -168,7 +170,7 @@ export class NewArticleComponent implements OnInit, OnDropOut {
   }
 
   onDropOut(): Observable<boolean> {
-    if (this.newArticleForm.pristine) {
+    if (this.newArticleForm.pristine || !this.hasUnsavedChanges) {
       return of(true);
     }
 
