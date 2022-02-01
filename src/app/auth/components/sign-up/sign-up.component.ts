@@ -30,6 +30,7 @@ export class SignUpComponent implements OnInit, OnDropOut {
 
   title = 'Sign Up';
   errorMessage: string | null = null;
+  hasUnsavedChanges: boolean = true;
   isLeaveDialogShown = false;
 
   constructor(
@@ -123,6 +124,7 @@ export class SignUpComponent implements OnInit, OnDropOut {
 
       this.userService.createUser(newUserParams).subscribe({
         next: () => {
+          this.hasUnsavedChanges = false;
           this.router.navigate(['/signin']);
         },
         error: (error) => {
@@ -141,7 +143,7 @@ export class SignUpComponent implements OnInit, OnDropOut {
   }
 
   onDropOut(): Observable<boolean> {
-    if (this.signUpForm.pristine) {
+    if (this.signUpForm.pristine || !this.hasUnsavedChanges) {
       return of(true);
     }
 
